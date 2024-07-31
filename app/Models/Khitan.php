@@ -15,7 +15,7 @@ class Khitan extends Model
         'jam',
         'jenis_paket',
         'tempat',
-        'status'
+        'status',
     ];
 
     public function pasien()
