@@ -10,15 +10,15 @@ class Pendaftaran extends Model
     use HasFactory;
     public $table = 'pendaftarans';
     protected $fillable = [
-        'jenis_pemeriksaan',
+        'no_rekam_medis',
         'name',
-        'tanggal_lahir',
+        'tempat',
+        'tgl_lahir',
         'usia',
-        'keterangan',
+        'status',
         'jenis_kelamin',
-        'nomer_hp',
+        'no_hp',
         'alamat',
-        'kategori'
 
     ];
 

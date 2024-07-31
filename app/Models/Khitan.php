@@ -10,12 +10,16 @@ class Khitan extends Model
     use HasFactory;
     public $table = 'khitans';
     protected $fillable = [
-        'name',
+        'pasien_id',
         'tanggal',
         'jam',
         'jenis_paket',
         'tempat',
-        'alamat',
         'status'
     ];
+
+    public function pasien()
+    {
+        return $this->belongsTo(Pendaftaran::class, 'pasien_id', 'id');
+    }
 }

@@ -14,14 +14,14 @@ return new class extends Migration
         Schema::create('pendaftarans', function (Blueprint $table) {
             $table->id();
             $table->string('no_rekam_medis')->unique();
-            $table->string('nama');
-            $table->date('tanggal_lahir');
+            $table->string('name');
+            $table->string('tempat');
+            $table->date('tgl_lahir');
             $table->integer('usia');
-            $table->enum('status', ['belumkawin', 'kawin'])->nullable();
+            $table->enum('status', ['kawin', 'belum_kawin']);
             $table->enum('jenis_kelamin', ['laki-laki', 'perempuan']);
-            $table->string('nomer_hp')->nullable();
+            $table->string('no_hp');
             $table->string('alamat');
-            $table->enum('khitan', ['ya', 'tidak']);
             $table->timestamps();
         });
     }
