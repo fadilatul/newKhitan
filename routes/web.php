@@ -7,8 +7,11 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ChartController;
 use App\Http\Controllers\RekamController;
 use App\Http\Controllers\DoktorController;
+use App\Http\Controllers\GejalaController;
 use App\Http\Controllers\KhitanController;
+use App\Http\Controllers\TerapiController;
 use App\Http\Controllers\RiwayatController;
+use App\Http\Controllers\DiagnosaController;
 use App\Http\Controllers\ExcelExportController;
 
 /*
@@ -86,9 +89,15 @@ Route::post('/khitan/update/{id}', [KhitanController::class, 'update'])->name('u
 // *****************Riwayat**********************************
 Route::get('/riwayat', [RiwayatController::class, 'pasien_priksa'])->name('riwayat');
 // *****************Grafik**********************************
-// routes/web.php
-// Route::get('/dashboard', [ChartController::class, 'index']);
+
 //crud dokter umummm
 Route::get('/patients/{id}/edit', [DoktorController::class, 'edit'])->name('patients.edit');
 Route::put('/patients/{id}', [DoktorController::class, 'update'])->name('patients.update');
 Route::delete('/patients/{id}', [DoktorController::class, 'destroy'])->name('patients.destroy');
+// untuk data master
+// Route::resource('gejala', GejalaController::class);
+// Route::resource('diagnosa', DiagnosaController::class);
+// Route::resource('terapi', TerapiController::class);
+Route::get('/gejala', [GejalaController::class, 'index'])->name('gejala');
+Route::get('/diagnosa', [DiagnosaController::class, 'index'])->name('diagnosa');
+Route::get('/terapi', [TerapiController::class, 'index'])->name('terapi');

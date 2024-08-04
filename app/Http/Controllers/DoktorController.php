@@ -13,14 +13,14 @@ class DoktorController extends Controller
     {
         $jumpasien = Pendaftaran::count();
         $jumkhit = Khitan::count();
-        $belumperiksa = Anamnese::where('gejala', 'belum diperiksa')
-            ->orWhere('diagnosa', 'belum diperiksa')
-            ->orWhere('terapi', 'belum diperiksa')
-            ->count();
+        // $belumperiksa = Anamnese::where('gejala', 'belum diperiksa')
+        //     ->orWhere('diagnosa', 'belum diperiksa')
+        //     ->orWhere('terapi', 'belum diperiksa')
+        //     ->count();
         $patientData = $this->getWeeklyData(Pendaftaran::class);
         $khitanData = $this->getWeeklyData(Khitan::class);
 
-        return view('pages.dokter.index', compact('jumpasien', 'jumkhit', 'belumperiksa', 'patientData', 'khitanData'));
+        return view('pages.dokter.index', compact('jumpasien', 'jumkhit', 'patientData', 'khitanData'));
     }
 
     private function getWeeklyData($model)

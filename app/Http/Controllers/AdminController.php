@@ -16,14 +16,14 @@ class AdminController extends Controller
     {
         $jmlpasien = Pendaftaran::count();
         $jmlkhitan = Khitan::count();
-        $belumDiperiksa = Anamnese::where('gejala', 'belum diperiksa')
-            ->orWhere('diagnosa', 'belum diperiksa')
-            ->orWhere('terapi', 'belum diperiksa')
-            ->count();
+        // $belumDiperiksa = Anamnese::where('gejala', 'belum diperiksa')
+        //     ->orWhere('diagnosa', 'belum diperiksa')
+        //     ->orWhere('terapi', 'belum diperiksa')
+        //     ->count();
         $patientData = $this->getWeeklyData(Pendaftaran::class);
         $khitanData = $this->getWeeklyData(Khitan::class);
         // dd($patientData);
-        return view('pages.admin.index', compact('jmlpasien', 'jmlkhitan', 'belumDiperiksa', 'patientData', 'khitanData'));
+        return view('pages.admin.index', compact('jmlpasien', 'jmlkhitan', 'patientData', 'khitanData'));
     }
     private function getWeeklyData($model)
     {
