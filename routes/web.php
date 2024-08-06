@@ -98,6 +98,6 @@ Route::delete('/patients/{id}', [DoktorController::class, 'destroy'])->name('pat
 // Route::resource('gejala', GejalaController::class);
 // Route::resource('diagnosa', DiagnosaController::class);
 // Route::resource('terapi', TerapiController::class);
-Route::get('/gejala', [GejalaController::class, 'index'])->name('gejala');
-Route::get('/diagnosa', [DiagnosaController::class, 'index'])->name('diagnosa');
+Route::get('/gejala/index', [GejalaController::class, 'index'])->name('gejala');
+Route::get('/diagnosa/index1', [DiagnosaController::class, 'index'])->name('diagnosa');
 Route::get('/terapi', [TerapiController::class, 'index'])->name('terapi');
