@@ -10,7 +10,7 @@ class DiagnosaController extends Controller
     public function index()
     {
         $diagnosas = Diagnosa::all();
-        return view('diagnosa.index', compact('diagnosas'));
+        return view('pages.diagnosa.index', compact('diagnosas'));
     }
 
     public function create()
