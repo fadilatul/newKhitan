@@ -10,12 +10,12 @@ class GejalaController extends Controller
     public function index()
     {
         $gejalas = Gejala::all();
-        return view('gejala.index', compact('gejalas'));
+        return view('pages.gejala.index', compact('gejalas'));
     }
 
     public function create()
     {
-        return view('gejala.create');
+        return view('pages.gejala.create');
     }
 
     public function store(Request $request)

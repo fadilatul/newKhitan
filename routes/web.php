@@ -98,6 +98,8 @@ Route::delete('/patients/{id}', [DoktorController::class, 'destroy'])->name('pat
 // Route::resource('gejala', GejalaController::class);
 // Route::resource('diagnosa', DiagnosaController::class);
 // Route::resource('terapi', TerapiController::class);
-Route::get('/gejala/index', [GejalaController::class, 'index'])->name('gejala');
-Route::get('/diagnosa/index1', [DiagnosaController::class, 'index'])->name('diagnosa');
-Route::get('/terapi', [TerapiController::class, 'index'])->name('terapi');
+Route::get('/gejala', [GejalaController::class, 'index'])->name('gejala');
+Route::get('/gejala/tambah', [GejalaController::class, 'create'])->name('gejala.create');
+Route::get('/diagnosa', [DiagnosaController::class, 'index'])->name('diagnosa');
+Route::get('/terapi/index', [TerapiController::class, 'index'])->name('terapi');
+// Route::get('/terapi/tambah', [TerapiController::class, 'create'])->name('terapi.create');

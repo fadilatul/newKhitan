@@ -10,12 +10,13 @@ class TerapiController extends Controller
     public function index()
     {
         $terapis = Terapi::all();
-        return view('terapi.index', compact('terapis'));
+        // return view('terapi.index', compact('terapis'));
+        return view('pages.terapi.index', compact('terapis'));
     }
 
     public function create()
     {
-        return view('terapi.create');
+        return view('terapi.index');
     }
 
     public function store(Request $request)
