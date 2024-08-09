@@ -9,7 +9,7 @@
             <div class="row">
                 <form action="/admin/tambah-pasien" method="POST">
                     @csrf
-                    <!-- <input type="hidden" name="pasien_id" value=""> -->
+                    <input type="hidden" name="no_rekam_medis" value="">
                     <div class="col-xl-12">
                         <div class="custom-accordion">
                             <div class="card">
@@ -20,7 +20,7 @@
                                             </div>
                                             <div class="flex-grow-1 overflow-hidden">
                                                 <h5 class="font-size-16 mb-1">Data Pribadi</h5>
-                                                <p class="text-muted text-truncate mb-0">Jenis Pemeriksaan, Nama, Tanggal
+                                                <p class="text-muted text-truncate mb-0">Nama, Tanggal
                                                     Lahir, Usia, Jenis Kelamin, Keterangan, Nomer Hp, Alamat
                                                     kategori, dsb</p>
                                             </div>
@@ -32,19 +32,6 @@
                                 <div id="personal-data" class="collapse show">
                                     <div class="p-4 border-top">
                                         <div class="row">
-                                            <div class="col-lg-4">
-                                                <div class="mb-3 mb-4">
-                                                    <label for="jenis_pemeriksaan">Jenis Pemeriksaan</label>
-                                                    <select id="jenis_pemeriksaan" name="jenis_pemeriksaan"
-                                                        class="form-control">
-                                                        <option value="">Pilih Jenis Pemeriksaan</option>
-                                                        <option value="periksa_umum">Periksa Umum</option>
-                                                        <option value="periksa_gigi">Periksa Gigi</option>
-                                                        <!-- Tambahkan jenis pemeriksaan lain jika ada -->
-                                                    </select>
-
-                                                </div>
-                                            </div>
                                             <div class="col-lg-4">
                                                 <div class="mb-3 mb-4">
                                                     <label class="form-label" for="personal-data-nisn">Nama Lengkap</label>

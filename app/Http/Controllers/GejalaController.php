@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Gejala;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 class GejalaController extends Controller
 {
@@ -18,30 +20,53 @@ class GejalaController extends Controller
         return view('pages.gejala.create');
     }
 
-    public function store(Request $request)
+    public function add(Request $request)
     {
-        $gejala = new Gejala();
-        $gejala->name = $request->name;
-        $gejala->description = $request->description;
-        $gejala->save();
+        $request->validate([
+            'type' => 'required',
+            'name' => 'required',
+        ], [
+            'type.required' => 'Type Wajib Di isi',
+            'name.required' => 'Name Wajib Di isi',
 
-        return redirect()->route('gejala.index');
+        ]);
+
+        $addGejala = Gejala::create([
+            'type' => $request->type,
+            'name' => $request->name,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
+
+        if ($addGejala) {
+            Session::flash('success', 'Berhasil Menambahkan Data');
+        }
+        // return response()->json($addGejala);
+
+        return redirect('/gejala');
     }
 
     public function edit($id)
     {
         $gejala = Gejala::findOrFail($id);
-        return view('gejala.edit', compact('gejala'));
+        return view('pages.gejala.edit', compact('gejala'));
     }
 
     public function update(Request $request, $id)
     {
-        $gejala = Gejala::findOrFail($id);
-        $gejala->name = $request->name;
-        $gejala->description = $request->description;
-        $gejala->save();
+        $request->validate([
+            'type' => 'required',
+            'name' => 'required',
+        ]);
 
-        return redirect()->route('gejala.index');
+        $gejala = Gejala::find($id);
+        if (!$gejala) {
+            return redirect('/gejala')->with('error', 'Data not found.');
+        }
+
+        $gejala->update($request->all());
+
+        return redirect('/gejala')->with('success', 'Data updated successfully');
     }
 
     public function destroy($id)
@@ -49,6 +74,6 @@ class GejalaController extends Controller
         $gejala = Gejala::findOrFail($id);
         $gejala->delete();
 
-        return redirect()->route('gejala.index');
+        return redirect()->route('gejala');
     }
 }

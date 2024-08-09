@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Terapi;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 class TerapiController extends Controller
 {
@@ -16,33 +18,56 @@ class TerapiController extends Controller
 
     public function create()
     {
-        return view('terapi.index');
+        return view('pages.terapi.tambah');
     }
 
-    public function store(Request $request)
+    public function add(Request $request)
     {
-        $terapi = new Terapi();
-        $terapi->name = $request->name;
-        $terapi->description = $request->description;
-        $terapi->save();
+        $request->validate([
+            'type' => 'required',
+            'name' => 'required',
+        ], [
+            'type.required' => 'Type Wajib Di isi',
+            'name.required' => 'Name Wajib Di isi',
 
-        return redirect()->route('terapi.index');
+        ]);
+
+        $addTerapi = Terapi::create([
+            'type' => $request->type,
+            'name' => $request->name,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
+
+        if ($addTerapi) {
+            Session::flash('success', 'Berhasil Menambahkan Data');
+        }
+        // return response()->json($addTerapi);
+
+        return redirect('/terapi');
     }
 
     public function edit($id)
     {
         $terapi = Terapi::findOrFail($id);
-        return view('terapi.edit', compact('terapi'));
+        return view('pages.terapi.edit', compact('terapi'));
     }
 
     public function update(Request $request, $id)
     {
-        $terapi = Terapi::findOrFail($id);
-        $terapi->name = $request->name;
-        $terapi->description = $request->description;
-        $terapi->save();
+        $request->validate([
+            'type' => 'required',
+            'name' => 'required',
+        ]);
 
-        return redirect()->route('terapi.index');
+        $terapi = Terapi::find($id);
+        if (!$terapi) {
+            return redirect('/terapi')->with('error', 'Data not found.');
+        }
+
+        $terapi->update($request->all());
+
+        return redirect('/terapi')->with('success', 'Data updated successfully');
     }
 
     public function destroy($id)
@@ -50,6 +75,6 @@ class TerapiController extends Controller
         $terapi = Terapi::findOrFail($id);
         $terapi->delete();
 
-        return redirect()->route('terapi.index');
+        return redirect()->route('terapi');
     }
 }

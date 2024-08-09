@@ -1,13 +1,13 @@
 @extends('layouts.app')
 @section('title')
-    Tambah Gejala
+    Tambah Diagnosa
 @endsection
 @section('content')
     <div class="content-body">
 
         <div class="container-fluid">
             <div class="row">
-                <form action="/gejala/add" method="POST">
+                <form action="/diagnosa/add" method="POST">
                     @csrf
                     <!-- <input type="hidden" name="pasien_id" value=""> -->
                     <div class="col-xl-12">
@@ -19,7 +19,7 @@
                                             <div class="flex-shrink-0 me-3"> <i class="uil uil-receipt text-primary h2"></i>
                                             </div>
                                             <div class="flex-grow-1 overflow-hidden">
-                                                <h5 class="font-size-16 mb-1">Data Gejala</h5>
+                                                <h5 class="font-size-16 mb-1">Data Diagnosa</h5>
                                                 <p class="text-muted text-truncate mb-0">Type, Nama</p>
                                             </div>
                                             <div class="flex-shrink-0"> <i
@@ -32,19 +32,18 @@
                                         <div class="row">
                                             <div class="col-6">
                                                 <div class="mb-3 mb-4">
-                                                    <label for="jenis_pemeriksaan">Jenis Gejala</label>
-                                                    <select id="jenis_pemeriksaan" name="type" class="form-control">
-                                                        <option value="">Pilih Jenis Gejala</option>
+                                                    <label>Jenis Diagnosa</label>
+                                                    <select name="type" class="form-control">
+                                                        <option value="">Pilih Jenis Diagnosa</option>
                                                         <option value="umum">Umum</option>
                                                         <option value="gigi">Gigi</option>
                                                         <!-- Tambahkan jenis pemeriksaan lain jika ada -->
                                                     </select>
-
                                                 </div>
                                             </div>
                                             <div class="col-6">
                                                 <div class="mb-3 mb-4">
-                                                    <label class="form-label" for="personal-data-nisn">Nama Gejala</label>
+                                                    <label class="form-label" for="personal-data-nisn">Nama Diagnosa</label>
                                                     <input type="text" class="form-control" id="personal-data-nisn"
                                                         name="name" placeholder="Masukkan Name" required>
                                                 </div>
@@ -60,7 +59,7 @@
                     <div class="row my-4">
                         <div class="col">
                             <div class="text-end mt-2 mt-sm-0">
-                                <button type="submit" class="btn btn-primary">Buat Gejala</button>
+                                <button type="submit" class="btn btn-primary">Buat Diagnosa</button>
                             </div>
                         </div>
                         <!-- end col -->

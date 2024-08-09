@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Diagnosa;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 class DiagnosaController extends Controller
 {
@@ -15,33 +17,56 @@ class DiagnosaController extends Controller
 
     public function create()
     {
-        return view('diagnosa.create');
+        return view('pages.diagnosa.tambah');
     }
 
-    public function store(Request $request)
+    public function add(Request $request)
     {
-        $diagnosa = new Diagnosa();
-        $diagnosa->name = $request->name;
-        $diagnosa->description = $request->description;
-        $diagnosa->save();
+        $request->validate([
+            'type' => 'required',
+            'name' => 'required',
+        ], [
+            'type.required' => 'Type Wajib Di isi',
+            'name.required' => 'Name Wajib Di isi',
 
-        return redirect()->route('diagnosa.index');
+        ]);
+
+        $addDiagnosa = Diagnosa::create([
+            'type' => $request->type,
+            'name' => $request->name,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
+
+        if ($addDiagnosa) {
+            Session::flash('success', 'Berhasil Menambahkan Data');
+        }
+        // return response()->json($addTerapi);
+
+        return redirect('/diagnosa');
     }
 
     public function edit($id)
     {
         $diagnosa = Diagnosa::findOrFail($id);
-        return view('diagnosa.edit', compact('diagnosa'));
+        return view('pages.diagnosa.edit', compact('diagnosa'));
     }
 
     public function update(Request $request, $id)
     {
-        $diagnosa = Diagnosa::findOrFail($id);
-        $diagnosa->name = $request->name;
-        $diagnosa->description = $request->description;
-        $diagnosa->save();
+        $request->validate([
+            'type' => 'required',
+            'name' => 'required',
+        ]);
 
-        return redirect()->route('diagnosa.index');
+        $terapi = Diagnosa::find($id);
+        if (!$terapi) {
+            return redirect('/diagnosa')->with('error', 'Data not found.');
+        }
+
+        $terapi->update($request->all());
+
+        return redirect('/diagnosa')->with('success', 'Data updated successfully');
     }
 
     public function destroy($id)
@@ -49,6 +74,6 @@ class DiagnosaController extends Controller
         $diagnosa = Diagnosa::findOrFail($id);
         $diagnosa->delete();
 
-        return redirect()->route('diagnosa.index');
+        return redirect()->route('diagnosa');
     }
 }

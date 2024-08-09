@@ -13,6 +13,7 @@ use App\Http\Controllers\TerapiController;
 use App\Http\Controllers\RiwayatController;
 use App\Http\Controllers\DiagnosaController;
 use App\Http\Controllers\ExcelExportController;
+use App\Models\Diagnosa;
 
 /*
 |--------------------------------------------------------------------------
@@ -98,8 +99,27 @@ Route::delete('/patients/{id}', [DoktorController::class, 'destroy'])->name('pat
 // Route::resource('gejala', GejalaController::class);
 // Route::resource('diagnosa', DiagnosaController::class);
 // Route::resource('terapi', TerapiController::class);
+
+//gejala
 Route::get('/gejala', [GejalaController::class, 'index'])->name('gejala');
 Route::get('/gejala/tambah', [GejalaController::class, 'create'])->name('gejala.create');
+Route::post('/gejala/add', [GejalaController::class, 'add'])->name('gejala.add');
+Route::post('/gejala/delete/{id}', [GejalaController::class, 'destroy'])->name('gejala.delete');
+Route::get('/gejala/edit/{id}', [GejalaController::class, 'edit'])->name('gejala.edit');
+Route::post('/gejala/update/{id}', [GejalaController::class, 'update'])->name('gejala.update');
+
+//dianosa
 Route::get('/diagnosa', [DiagnosaController::class, 'index'])->name('diagnosa');
-Route::get('/terapi/index', [TerapiController::class, 'index'])->name('terapi');
-// Route::get('/terapi/tambah', [TerapiController::class, 'create'])->name('terapi.create');
+Route::get('/diagnosa/tambah', [DiagnosaController::class, 'create'])->name('diagnosa.create');
+Route::post('/diagnosa/add', [DiagnosaController::class, 'add'])->name('diagnosa.add');
+Route::get('/diagnosa/edit/{id}', [DiagnosaController::class, 'edit'])->name('diagnosa.edit');
+Route::post('/diagnosa/update/{id}', [DiagnosaController::class, 'update'])->name('diagnosa.update');
+Route::post('/diagnosa/delete/{id}', [DiagnosaController::class, 'destroy'])->name('diagnosa.delete');
+
+//terapi
+Route::get('/terapi', [TerapiController::class, 'index'])->name('terapi');
+Route::get('/terapi/tambah', [TerapiController::class, 'create'])->name('terapi.create');
+Route::post('/terapi/add', [TerapiController::class, 'add'])->name('terapi.add');
+Route::get('/terapi/edit/{id}', [TerapiController::class, 'edit'])->name('terapi.edit');
+Route::post('/terapi/update/{id}', [TerapiController::class, 'update'])->name('terapi.update');
+Route::post('/terapi/delete/{id}', [TerapiController::class, 'destroy'])->name('terapi.delete');
