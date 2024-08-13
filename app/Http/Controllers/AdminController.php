@@ -16,14 +16,14 @@ class AdminController extends Controller
     {
         $jmlpasien = Pendaftaran::count();
         $jmlkhitan = Khitan::count();
-        $belumDiperiksa = Anamnese::where('gejala', 'belum diperiksa')
-            ->orWhere('diagnosa', 'belum diperiksa')
-            ->orWhere('terapi', 'belum diperiksa')
-            ->count();
+        // $belumDiperiksa = Anamnese::where('gejala', 'belum diperiksa')
+        //     ->orWhere('diagnosa', 'belum diperiksa')
+        //     ->orWhere('terapi', 'belum diperiksa')
+        //     ->count();
         $patientData = $this->getWeeklyData(Pendaftaran::class);
         $khitanData = $this->getWeeklyData(Khitan::class);
         // dd($patientData);
-        return view('pages.admin.index', compact('jmlpasien', 'jmlkhitan', 'belumDiperiksa', 'patientData', 'khitanData'));
+        return view('pages.admin.index', compact('jmlpasien', 'jmlkhitan', 'patientData', 'khitanData'));
     }
     private function getWeeklyData($model)
     {
@@ -56,59 +56,67 @@ class AdminController extends Controller
 
     public function add_pasien(Request $request)
     {
+        // Validasi data input (opsional tapi disarankan)
         $request->validate([
-            'jenis_pemeriksaan' => 'required',
-            'name' => 'required',
-            'tanggal_lahir' => 'required',
-            'usia' => 'required',
-            'keterangan' => 'required',
-            'jenis_kelamin' => 'required',
-            'alamat' => 'required',
-            'kategori' => 'required',
-        ], [
-            'jenis_pemeriksaan' => 'Pilih Jenis Periksa',
-            'name.required' => 'Nama Wajib Di isi',
-            'tanggal_lahir.required' => 'Tanggal Lahir Wajib Di isi',
-            'usia.required' => 'Usia Wajib Di isi',
-            'keterangan.required' => 'Keterangan Wajib Di isi',
-            'jenis_kelamin.required' => 'Jenis Kelamin Wajib Di isi',
-            'alamat.required' => 'Alamat Wajib Di isi',
-            'kategori.required' => 'Tanggal Lahir Wajib Di isi'
+            'name' => 'required|string',
+            'tempat' => 'nullable|string',
+            'tanggal_lahir' => 'required|date',
+            'usia' => 'required|integer',
+            'agama' => 'nullable|in:islam,kristen,katolik,buddha,hindu,khonghucu',
+            'pendidikan' => 'nullable|in:sd,smp,sma,pt',
+            'pekerjaan' => 'required|string',
+            'alergi_obat' => 'nullable|string',
+            'bakat_kloid' => 'nullable|string',
+            'name_orangtua' => 'required|string',
+            'status' => 'nullable|in:belumkawin,kawin',
+            'jenis_kelamin' => 'required|in:laki-laki,perempuan',
+            'nomer_hp' => 'nullable|string',
+            'alamat' => 'required|string',
+            'poli' => 'nullable|string',
+            'tekanan_darah' => 'nullable|string',
+            'suhu_tubuh' => 'nullable|string',
+            'gejala_id' => 'nullable|integer',
+            'suhu_tubuh' => 'nullable|string',
+            'tinggi_badan' => 'nullable|integer',
+            'berat_badan' => 'nullable|integer',
+            'terapi_id' => 'nullable|integer',
         ]);
 
-        // return response()->json($request->all());
+        // Menambahkan data pasien
         $addPasien = Pendaftaran::create([
-            'jenis_pemeriksaan' => $request->jenis_pemeriksaan,
             'name' => $request->name,
+            'tempat' => $request->tempat,
             'tanggal_lahir' => $request->tanggal_lahir,
             'usia' => $request->usia,
-            'keterangan' => $request->keterangan,
+            'berat_badan' => $request->berat_badan,
+            'tinggi_badan' => $request->tinggi_badan,
+            'agama' => $request->agama,
+            'pendidikan' => $request->pendidikan,
+            'pekerjaan' => $request->pekerjaan,
+            'alergi_obat' => $request->alergi_obat,
+            'bakat_kloid' => $request->bakat_kloid,
+            'name_orangtua' => $request->name_orangtua,
+            'status' => $request->status,
             'jenis_kelamin' => $request->jenis_kelamin,
             'nomer_hp' => $request->nomer_hp,
             'alamat' => $request->alamat,
-            'kategori' => $request->kategori,
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now(),
         ]);
 
-
+        // Menambahkan data anamnese
         $anamnese = Anamnese::create([
             'pasien_id' => $addPasien->id,
             'poli' => $request->input('poli'),
             'tekanan_darah' => $request->input('tekanan_darah'),
             'suhu_tubuh' => $request->input('suhu_tubuh'),
-            'gejala' => $request->input('gejala'),
-            'diagnosa' => $request->input('diagnosa'),
-            'terapi' => $request->input('terapi'),
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now()
+            'gejala_id' => $request->input('gejala_id'),
+            'diagnosa_id' => $request->input('diagnosa_id'),
+            'terapi_id' => $request->input('terapi_id'),
         ]);
-        // return response()->json($request->all());
+
         if ($anamnese) {
             Session::flash('success', 'Berhasil Menambahkan Data');
         }
-
-        // return response()->json($addPasien);
+        // return response()->json($anamnese);
         return redirect('/admin/data-pasien');
     }
 
@@ -123,15 +131,21 @@ class AdminController extends Controller
     {
         // Validasi data yang diterima dari request
         $request->validate([
-            'jenis_pemeriksaan' => 'required',
-            'name' => 'required',
-            'tanggal_lahir' => 'required',
-            'usia' => 'required',
-            'keterangan' => 'required',
-            'jenis_kelamin' => 'required',
-            'nomer_hp' => 'required',
-            'alamat' => 'required',
-            'kategori' => 'required',
+            'name' => 'required|string',
+            'tempat' => 'nullable|string',
+            'tanggal_lahir' => 'required|date',
+            'usia' => 'required|integer',
+            'agama' => 'nullable|in:islam,kristen,katolik,buddha,hindu,khonghucu',
+            'pendidikan' => 'nullable|in:sd,smp,sma,pt',
+            'pekerjaan' => 'required|string',
+            'alergi_obat' => 'nullable|string',
+            'bakat_kloid' => 'nullable|string',
+            'name_orangtua' => 'required|string',
+            'status' => 'nullable|in:belumkawin,kawin',
+            'jenis_kelamin' => 'required|in:laki-laki,perempuan',
+            'nomer_hp' => 'nullable|string',
+            'alamat' => 'required|string',
+            // Menghilangkan validasi untuk anamnese fields
         ]);
 
         // Temukan data pasien berdasarkan ID
@@ -142,22 +156,31 @@ class AdminController extends Controller
             return redirect()->route('data-pasien')->with('error', 'Data not found.');
         }
 
-        // Update data pasien dengan data dari request
-        $pasien->jenis_pemeriksaan = $request->jenis_pemeriksaan;
-        $pasien->name = $request->name;
-        $pasien->tanggal_lahir = $request->tanggal_lahir;
-        $pasien->usia = $request->usia;
-        $pasien->keterangan = $request->keterangan;
-        $pasien->jenis_kelamin = $request->jenis_kelamin;
-        $pasien->nomer_hp = $request->nomer_hp;
-        $pasien->alamat = $request->alamat;
-        $pasien->kategori = $request->kategori;
-        $pasien->save();
+        // Update data pasien
+        $pasien->update([
+            'name' => $request->name,
+            'tempat' => $request->tempat,
+            'tanggal_lahir' => $request->tanggal_lahir,
+            'usia' => $request->usia,
+            'agama' => $request->agama,
+            'pendidikan' => $request->pendidikan,
+            'pekerjaan' => $request->pekerjaan,
+            'alergi_obat' => $request->alergi_obat,
+            'bakat_kloid' => $request->bakat_kloid,
+            'name_orangtua' => $request->name_orangtua,
+            'status' => $request->status,
+            'tinggi_badan' => $request->tinggi_badan,
+            'berat_badan' => $request->berat_badan,
+            'jenis_kelamin' => $request->jenis_kelamin,
+            'nomer_hp' => $request->nomer_hp,
+            'alamat' => $request->alamat,
+        ]);
 
-
-        // Redirect dengan pesan sukses ke halaman yang diinginkan
+        // return response()->json($pasien);
         return redirect()->route('data-pasien')->with('success', 'Data updated successfully');
     }
+
+
 
 
     public function hapuspendaftaran(Request $request)

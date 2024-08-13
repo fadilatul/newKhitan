@@ -13,13 +13,21 @@ return new class extends Migration
     {
         Schema::create('khitans', function (Blueprint $table) {
             $table->id();
+            $table->string('nomor_khitan')->unique();
             $table->string('name');
+            $table->string('tempat_lahir');
+            $table->date('tanggal_lahir');
             $table->date('tanggal');
             $table->time('jam');
-            $table->enum('jenis_paket', ['paket1', 'paket2', 'paket3', 'paket4']);
-            $table->enum('tempat', ['klinik', 'rumah']);
+            $table->string('alergi_obat')->default('tidak_tahu');
+            $table->string('bakat_kloid')->default('tidak_tahu');
+            $table->enum('jenis_khitan', ['konvensional', 'flash_couter', 'smart_klomp', 'cincin']);
+            $table->enum('tempat', ['gkz', 'rumah']);
+            $table->string('name_orangtua');
+            $table->string('nomer_hp');
             $table->string('alamat');
             $table->enum('status', ['selesai', 'belum']);
+            $table->decimal('biaya', 10, 2)->nullable();
             $table->timestamps();
         });
     }

@@ -28,12 +28,10 @@
                                  <thead>
                                      <tr>
                                          <th>No</th>
+                                         <th>Nomor Pendaftaran</th>
                                          <th>Name</th>
-                                         <th>Tanggal Lahir</th>
-                                         <th>Usia</th>
                                          <th>Alamat</th>
                                          <th>Nomer HP</th>
-                                         <th>Kategori</th>
                                          <th>Rekam Medik</th>
                                          <th>Aksi</th>
                                      </tr>
@@ -42,12 +40,11 @@
                                      @foreach ($data as $item)
                                      <tr>
                                          <td>{{ $loop->iteration }}</td>
+                                         <td>{{ $item->nomor_pendaftaran }}
                                          <td>{{ $item->name }}</td>
-                                         <td>{{ $item->tanggal_lahir }}</td>
-                                         <td>{{ $item->usia }} Th</td>
+
                                          <td>{{ $item->alamat }}</td>
                                          <td>{{ $item->nomer_hp }}</td>
-                                         <td>{{ $item->kategori }}</td>
                                          <td>
                                              <div class="row">
                                                  <div class="col-md-2">

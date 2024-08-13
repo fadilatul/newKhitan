@@ -16,11 +16,16 @@ Rekam Medis
                     </div>
                     <div class="card-body" id="cetak">
                         <ul>
-                            <li>Nama Lengkap : {{ $pasien->name }}</li>
-                            <li>Tanggal Lahir : {{ $pasien->tanggal_lahir }}</li>
-                            <li>Jenis Kelamin : {{ $pasien->jenis_kelamin }}</li>
-                            <li>Kategori : {{ $pasien->kategori }}</li>
-                            <li>Alamat : {{ $pasien->alamat }}</li>
+                            <li>Nama Lengkap :<span class="fw-bold"> {{ $pasien->name }}</span></li>
+                            <li>Tempat, Tanggal Lahir:<span class="fw-bold"> {{ $pasien->tempat }}, {{ \Carbon\Carbon::parse($pasien->tanggal_lahir)->format('d-m-Y') }}</span></li>
+                            <li>Usia : <span class="fw-bold"> {{ $pasien->usia }}</span></li>
+                            <li>Jenis Kelamin : <span class="fw-bold"> {{ $pasien->jenis_kelamin }}</span></li>
+                            <li>Nama Orang Tua : <span class="fw-bold"> {{$pasien->name_orangtua}}</span></li>
+                            <li>Alamat : <span class="fw-bold"> {{ $pasien->alamat }}</span></li>
+                            <li>Alergi Obat: <span class="fw-bold"> {{ $pasien->alergi_obat }}</span></li>
+
+                            <li>Tinggi Badan: <span class="fw-bold"> {{ $pasien->tinggi_badan }}</span></li>
+                            <li>Berat Badan: <span class="fw-bold"> {{ $pasien->berat_badan }}</span></li>
                         </ul>
                     </div>
                 </div>
@@ -44,6 +49,8 @@ Rekam Medis
                             <table id="example" class="display" style="min-width: 845px">
                                 <thead>
                                     <tr>
+
+                                        <th>No RM</th>
                                         <th>Tanggal Masuk</th>
                                         <th>Poli</th>
                                         <th>Tekanan Darah</th>
@@ -51,6 +58,7 @@ Rekam Medis
                                         <th>Gejala</th>
                                         <th>Diagnosa</th>
                                         <th>Terapi</th>
+                                        <th>Biaya</th>
                                         <th>Aksi</th>
 
                                     </tr>
@@ -59,13 +67,16 @@ Rekam Medis
                                     @foreach ($rekamUmum as $rekam)
                                     <tr>
 
-                                        <td>{{ $rekam->created_at }}</td>
+                                        <td>{{ $rekam->no_rm }}
+                                        <td>{{ \Carbon\Carbon::parse($rekam->created_at)->format('l, d-m-Y H:i:s') }}</td>
                                         <td>{{ $rekam->poli }}</td>
                                         <td>{{ $rekam->tekanan_darah }} mm Hg</td>
                                         <td>{{ $rekam->suhu_tubuh }} Celcius</td>
-                                        <td>{{ $rekam->gejala }}</td>
-                                        <td>{{ $rekam->diagnosa }}</td>
-                                        <td>{{ $rekam->terapi }}</td>
+                                        <td>{{ $rekam->gejala->name ?? 'Belum Dipriksa' }}</td>
+                                        <td>{{ $rekam->diagnosa->name ?? 'Belum Dipriksa' }}</td>
+                                        <td>{{ $rekam->terapi->name ?? 'Belum Dipriksa' }}</td>
+
+                                        <td>Rp {{ number_format($rekam->biaya, 0, ',', '.') }}</td>
                                         <td>
                                             <div class="d-flex">
 

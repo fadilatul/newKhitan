@@ -1,203 +1,158 @@
-{{-- @extends('layouts.app')
-@section('title')
-Edit Data Khitan
-@endsection
-@section('content')
-<div class="content-body">
-    <div class="container-fluid">
-        <div class="row">
-            <form action="{{ route('khitan_update', ['id' => $khitan->id]) }}" method="POST">
-                @csrf
-                <!-- <input type="hidden" name="pasien_id" value=""> -->
-                <div class="col-xl-12">
-                    <div class="custom-accordion">
-                        <div class="card">
-                            <a href="#personal-data" class="text-dark" data-bs-toggle="collapse">
-                                <div class="p-4">
-                                    <div class="d-flex align-items-center">
-                                        <div class="flex-shrink-0 me-3"> <i class="uil uil-receipt text-primary h2"></i>
-                                        </div>
-                                        <div class="flex-grow-1 overflow-hidden">
-                                            <h5 class="font-size-16 mb-1">Edit Khitan</h5>
-                                            <p class="text-muted text-truncate mb-0">Name, Tanggal, , Jam, Jenis Paket, Alamat</p>
-                                        </div>
-                                        <div class="flex-shrink-0"> <i class="mdi mdi-chevron-up accor-down-icon font-size-24"></i> </div>
-                                    </div>
-                                </div>
-                            </a>
-                            <div id="personal-data" class="collapse show">
-                                <div class="p-4 border-top">
-                                    <div class="row">
-                                        <div class="col-lg-4">
-                                            <div class="mb-3 mb-4">
-                                                <label class="form-label" for="personal-data-gender">Status</label>
-                                                <select class="form-control" name="status">
-                                                    @if ($khitan->status == 'belum')
-                                                    <option selected>{{$khitan->status}}</option>
-                                                    <option value="selesai">selesai</option>
-                                                    @else
-                                                    <option selected>{{$khitan->status}}</option>
-                                                    <option value="belum">belum</option>
-                                                    @endif
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-4">
-                                            <div class="mb-3 mb-4">
-                                                <label class="form-label" for="personal-data-nisn">Nama Lengkap</label>
-                                                <input type="text" class="form-control" name="name" value="{{$khitan->name}}">
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-4">
-                                            <div class="mb-3 mb-4">
-                                                <label class="form-label" for="personal-data-nik">Tanggal Daftar</label>
-                                                <input type="date" class="form-control" name="tanggal" value="{{$khitan->tanggal}}">
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-4">
-                                            <div class="mb-3 mb-4">
-                                                <label class="form-label" for="personal-data-name">Jam Daftar</label>
-                                                <input type="time" class="form-control" name="jam" value="{{$khitan->jam}}">
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-
-                                        <div class="col-lg-6">
-                                            <div class="mb-3 mb-4">
-                                                <label class="form-label" for="personal-data-gender">Jenis
-                                                    Paket</label>
-                                                <select class="form-control wide" name="jenis_paket">
-                                                    @if ($khitan->jenis_paket == 'paket1')
-                                                    <option selected>{{$khitan->jenis_paket}}</option>
-                                                    <option value="paket2">Paket 2</option>
-                                                    <option value="paket3">Paket 3</option>
-                                                    <option value="paket4">Paket 4</option>
-                                                    @elseif($khitan->jenis_paket == 'paket2')
-                                                    <option selected>{{$khitan->jenis_paket}}</option>
-                                                    <option value="paket1">Paket 1</option>
-                                                    <option value="paket3">Paket 3</option>
-                                                    <option value="paket4">Paket 4</option>
-                                                    @elseif($khitan->jenis_paket == 'paket3')
-                                                    <option selected>{{$khitan->jenis_paket}}</option>
-                                                    <option value="paket1">Paket 1</option>
-                                                    <option value="paket2">Paket 2</option>
-                                                    <option value="paket4">Paket 4</option>
-                                                    @else
-                                                    <option selected>{{$khitan->jenis_paket}}</option>
-                                                    <option value="paket1">Paket 1</option>
-                                                    <option value="paket2">Paket 2</option>
-                                                    <option value="paket3">Paket 3</option>
-                                                    @endif
-                                                </select>
-
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6">
-                                            <div class="mb-3 mb-4">
-                                                <label class="form-label" for="personal-data-gender">Tempat</label>
-                                                <select class="form-control" name="tempat">
-                                                    @if ($khitan->tempat == 'rumah')
-                                                    <option selected>{{$khitan->tempat}}</option>
-                                                    <option value="klinik">klinik</option>
-                                                    @else
-                                                    <option selected>{{$khitan->tempat}}</option>
-                                                    <option value="rumah">rumah</option>
-                                                    @endif
-                                                </select>
-
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-lg-12">
-                                                <div class="mb-3 mb-4">
-                                                    <label class="form-label" for="personal-data-nik">Alamat</label>
-                                                    <input class="form-control" rows="3" name="alamat" value="{{$khitan->alamat}}"></input>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row my-4">
-                    <div class="col">
-                        <div class="text-end mt-2 mt-sm-0">
-                            <button type="submit" class="btn btn-primary">Edit Pendaftaran</button>
-                        </div>
-                    </div>
-                    <!-- end col -->
-                </div>
-                <!-- end row-->
-            </form>
-        </div>
-    </div>
-</div>
-@endsection --}}
 @extends('layouts.app')
 @section('title', 'Edit Data Khitan')
 
 @section('content')
-    <div class="content-body">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-12">
-                    <div class="card">
-                        <div class="card-header">
-                            <h4 class="card-title">Edit Data Khitan</h4>
+<div class="content-body">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title">Edit Data Khitan</h4>
+                    </div>
+                    <div class="card-body">
+                        <!-- Display Flash Messages -->
+                        @if (session('success'))
+                        <div class="alert alert-success">
+                            {{ session('success') }}
                         </div>
-                        <div class="card-body">
-                            <form action="{{ route('update_khitan', ['id' => $khitan->id]) }}" method="POST">
-                                @csrf
-                                <div class="form-group">
-                                    <label>Nama</label>
-                                    <input type="text" name="name" id="name" class="form-control"
-                                        value="{{ $khitan->name }}" required>
+                        @elseif (session('error'))
+                        <div class="alert alert-danger">
+                            {{ session('error') }}
+                        </div>
+                        @endif
+
+                        <form action="{{ route('update_khitan', ['id' => $khitan->id]) }}" method="POST">
+                            @csrf
+                            <input type="hidden" name="id" value="{{ $khitan->id }}" />
+
+                            <!-- Form fields -->
+                            <div class="form-group mb-3">
+                                <label for="name">Nama</label>
+                                <input type="text" name="name" id="name" class="form-control"
+                                    value="{{ old('name', $khitan->name) }}" required>
+                                @error('name')
+                                <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-6 mb-3">
+                                    <label for="tempat_lahir">Tempat Lahir</label>
+                                    <input type="text" name="tempat_lahir" id="tempat_lahir" class="form-control"
+                                        value="{{ old('tempat_lahir', $khitan->tempat_lahir) }}" required>
+                                    @error('tempat_lahir')
+                                    <div class="text-danger">{{ $message }}</div>
+                                    @enderror
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group col-6 mb-3">
+                                    <label for="tanggal_lahir">Tanggal Lahir</label>
+                                    <input type="date" name="tanggal_lahir" id="tanggal_lahir" class="form-control"
+                                        value="{{ old('tanggal_lahir', $khitan->tanggal_lahir) }}" required>
+                                    @error('tanggal_lahir')
+                                    <div class="text-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                                <div class="form-group col-6 mb-3">
+                                    <label for="name_orangtua">Name Orang Tua</label>
+                                    <input type="text" name="name_orangtua" id="name_orangtua" class="form-control"
+                                        value="{{ old('name_orangtua', $khitan->name_orangtua) }}" required>
+                                    @error('name_orangtua')
+                                    <div class="text-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                                <div class="form-group col-6 mb-3">
                                     <label for="tanggal">Tanggal</label>
                                     <input type="date" name="tanggal" id="tanggal" class="form-control"
-                                        value="{{ $khitan->tanggal }}" required>
+                                        value="{{ old('tanggal', $khitan->tanggal) }}" required>
+                                    @error('tanggal')
+                                    <div class="text-danger">{{ $message }}</div>
+                                    @enderror
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group col-6 mb-3">
                                     <label for="jam">Jam</label>
                                     <input type="time" name="jam" id="jam" class="form-control"
-                                        value="{{ $khitan->jam }}" required>
+                                        value="{{ old('jam', $khitan->jam) }}" required>
+                                    @error('jam')
+                                    <div class="text-danger">{{ $message }}</div>
+                                    @enderror
                                 </div>
-                                <div class="form-group">
-                                    <label for="jenis_paket">Jenis Paket</label>
-                                    <input type="text" name="jenis_paket" id="jenis_paket" class="form-control"
-                                        value="{{ $khitan->jenis_paket }}" required>
+                                <div class="form-group col-6 mb-3">
+                                    <label for="jenis_khitan">Jenis Khitan</label>
+                                    <select class="form-control" name="jenis_khitan" id="jenis_khitan">
+                                        <option value="konvensional" {{ $khitan->jenis_khitan == 'konvensional' ? 'selected' : '' }}>Konvensional</option>
+                                        <option value="flash_couter" {{ $khitan->jenis_khitan == 'flash_couter' ? 'selected' : '' }}>Flash Couter</option>
+                                        <option value="smart_klomp" {{ $khitan->jenis_khitan == 'smart_klomp' ? 'selected' : '' }}>Smart Klomp</option>
+                                        <option value="cincin" {{ $khitan->jenis_khitan == 'cincin' ? 'selected' : '' }}>Cincin</option>
+                                    </select>
+                                    @error('jenis_khitan')
+                                    <div class="text-danger">{{ $message }}</div>
+                                    @enderror
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group col-6 mb-3">
                                     <label for="tempat">Tempat</label>
                                     <input type="text" name="tempat" id="tempat" class="form-control"
-                                        value="{{ $khitan->tempat }}" required>
+                                        value="{{ old('tempat', $khitan->tempat) }}" required>
+                                    @error('tempat')
+                                    <div class="text-danger">{{ $message }}</div>
+                                    @enderror
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group col-12 mb-3">
                                     <label for="alamat">Alamat</label>
                                     <input type="text" name="alamat" id="alamat" class="form-control"
-                                        value="{{ $khitan->alamat }}" required>
+                                        value="{{ old('alamat', $khitan->alamat) }}" required>
+                                    @error('alamat')
+                                    <div class="text-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                                <div class="form-group col-6 mb-3">
+                                    <label for="alergi_obat">Alergi Obat</label>
+                                    <input type="text" name="alergi_obat" id="alergi_obat" class="form-control"
+                                        value="{{ old('alergi_obat', $khitan->alergi_obat) }}">
+                                    @error('alergi_obat')
+                                    <div class="text-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                                <div class="form-group col-6 mb-3">
+                                    <label for="bakat_kloid">Bakat Kloid</label>
+                                    <input type="text" name="bakat_kloid" id="bakat_kloid" class="form-control"
+                                        value="{{ old('bakat_kloid', $khitan->bakat_kloid) }}">
+                                    @error('bakat_kloid')
+                                    <div class="text-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                                <div class="form-group col-6 mb-3">
+                                    <label for="nomer_hp">Nomer Hp</label>
+                                    <input type="text" name="nomer_hp" id="nomer_hp" class="form-control"
+                                        value="{{ old('nomer_hp', $khitan->nomer_hp) }}" required>
+                                    @error('nomer_hp')
+                                    <div class="text-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                                <div class="form-group col-6 mb-3">
+                                    <label for="biaya">Biaya</label>
+                                    <input type="text" name="biaya" id="biaya" class="form-control"
+                                        value="{{ old('biaya', $khitan->biaya) }}">
+                                    @error('biaya')
+                                    <div class="text-danger">{{ $message }}</div>
+                                    @enderror
                                 </div>
                                 <div class="form-group mb-4">
                                     <label for="status">Status</label>
                                     <select name="status" id="status" class="form-control" required>
-                                        <option value="belum" {{ $khitan->status == 'belum' ? 'selected' : '' }}>Belum
-                                            Khitan</option>
-                                        <option value="selesai" {{ $khitan->status == 'selesai' ? 'selected' : '' }}>Selesai
-                                        </option>
+                                        <option value="belum" {{ old('status', $khitan->status) == 'belum' ? 'selected' : '' }}>Belum Khitan</option>
+                                        <option value="selesai" {{ old('status', $khitan->status) == 'selesai' ? 'selected' : '' }}>Selesai</option>
                                     </select>
+                                    @error('status')
+                                    <div class="text-danger">{{ $message }}</div>
+                                    @enderror
                                 </div>
                                 <button type="submit" class="btn btn-primary">Update</button>
-                            </form>
-                        </div>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
+</div>
 @endsection

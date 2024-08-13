@@ -3,17 +3,12 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
+use App\Models\Gejala;
+use App\Models\Terapi;
 use App\Models\Anamnese;
+use App\Models\Diagnosa;
 use App\Models\Pendaftaran;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Session;
-
-namespace App\Http\Controllers;
-
-use Illuminate\Http\Request;
-use App\Models\Anamnese;
-use App\Models\Pendaftaran;
-use Carbon\Carbon;
 use Illuminate\Support\Facades\Session;
 
 class RekamController extends Controller
@@ -63,9 +58,9 @@ class RekamController extends Controller
             'poli' => $request->poli,
             'tekanan_darah' => $request->tekanan_darah,
             'suhu_tubuh' => $request->suhu_tubuh,
-            'gejala' => $request->gejala,
-            'diagnosa' => $request->diagnosa,
-            'terapi' => $request->terapi,
+            'gejala_id' => $request->gejala,
+            'diagnosa_id' => $request->diagnosa,
+            'terapi_id' => $request->terapi,
             'pasien_id' => $pasien_id,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
@@ -80,21 +75,39 @@ class RekamController extends Controller
 
     public function edit_rekam($pasien_id)
     {
+        $gejalagigi = Gejala::where('type', 'gigi')->get();
+        $gejalaumum = Gejala::where('type', 'umum')->get();
+        $diagnosagigi = Diagnosa::where('type', 'gigi')->get();
+        $diagnosaumum = Diagnosa::where('type', 'umum')->get();
+        $terapigigi = Terapi::where('type', 'gigi')->get();
+        $terapiumum = Terapi::where('type', 'umum')->get();
         $rekams = Anamnese::where('pasien_id', $pasien_id)->latest('id')->first();
-        return view('pages.rekam-medis.update-rekammedis', compact('pasien_id', 'rekams'));
+        return view('pages.rekam-medis.update-rekammedis', compact('pasien_id', 'rekams', 'gejalagigi', 'gejalaumum', 'diagnosagigi', 'diagnosaumum', 'terapigigi', 'terapiumum'));
     }
 
     public function update_rekam(Request $request, $pasien_id)
     {
+        // Ambil rekam medis terbaru untuk pasien
         $rekams = Anamnese::where('pasien_id', $pasien_id)->latest('id')->first();
+
+        // Update data rekam medis
         $rekams->tekanan_darah = $request->tekanan_darah;
         $rekams->suhu_tubuh = $request->suhu_tubuh;
-        $rekams->gejala = $request->gejala;
-        $rekams->diagnosa = $request->diagnosa;
-        $rekams->terapi = $request->terapi;
+        $rekams->gejala_id = $request->gejala_id;
+        $rekams->diagnosa_id = $request->diagnosa_id;
+        $rekams->terapi_id = $request->terapi_id;
+        $rekams->biaya = $request->biaya;
         $rekams->save();
 
-        return redirect()->route('rekam_medis', $pasien_id);
+        // Redirect ke route yang sesuai berdasarkan poli
+        if ($rekams->poli == 'umum') {
+            return redirect()->route('rekam_umum', $pasien_id);
+        } elseif ($rekams->poli == 'gigi') {
+            return redirect()->route('rekam_gigi', $pasien_id);
+        } else {
+            // Handle kondisi jika poli tidak sesuai dengan yang diharapkan
+            return redirect()->route('rekam_medis'); // Atau route lain yang sesuai
+        }
     }
 
     //     // copy yaa

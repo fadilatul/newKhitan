@@ -13,15 +13,23 @@ return new class extends Migration
     {
         Schema::create('pendaftarans', function (Blueprint $table) {
             $table->id();
-            $table->string('no_rekam_medis')->unique();
-            $table->string('nama');
+            $table->string('nomor_pendaftaran')->unique();
+            $table->string('name');
+            $table->string('tempat')->nullable();
             $table->date('tanggal_lahir');
             $table->integer('usia');
+            $table->string('berat_badan')->nullable();
+            $table->string('tinggi_badan')->nullable();
+            $table->enum('agama', ['islam', 'kristen', 'katolik', 'buddha', 'hindu', 'khonghucu'])->nullable();
+            $table->enum('pendidikan', ['sd', 'smp', 'sma', 'pt'])->nullable();
+            $table->string('pekerjaan');
+            $table->string('alergi_obat')->default('tidak_tahu');
+            $table->string('bakat_kloid')->default('tidak_tahu');
+            $table->string('name_orangtua');
             $table->enum('status', ['belumkawin', 'kawin'])->nullable();
             $table->enum('jenis_kelamin', ['laki-laki', 'perempuan']);
             $table->string('nomer_hp')->nullable();
             $table->string('alamat');
-            $table->enum('khitan', ['ya', 'tidak']);
             $table->timestamps();
         });
     }

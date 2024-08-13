@@ -35,31 +35,64 @@ Update Rekam Medis
 
                     <div class="form-group mb-4">
                         <label for="inputAlamat">Gejala</label>
-                        @if($rekams->gejala == 'belum dipriksa')
-                        <input id="inputAlamat" name="gejala" type="text" class="form-control rounded-pill" placeholder="belum dipriksa">
+                        @if(Auth::user()->name == 'DokterGigi')
+                        <select id="inputKeterangan" name="gejala_id" class="form-control rounded-pill">
+                            <option selected>Pilih Gejala</option>
+                            @foreach ($gejalagigi as $gejala)
+                            <option value="{{ $gejala->id }}">{{ $gejala->name }}</option>
+                            @endforeach
+                        </select>
                         @else
-                        <input id="inputAlamat" name="gejala" type="text" value="{{$rekams->gejala}}" class="form-control rounded-pill">
+                        <select id="inputKeterangan" name="gejala_id" class="form-control rounded-pill">
+                            <option selected>Pilih Gejala</option>
+                            @foreach ($gejalaumum as $gejala)
+                            <option value="{{ $gejala->id }}">{{ $gejala->name }}</option>
+                            @endforeach
+                        </select>
                         @endif
                     </div>
-                    <div class="form-group mb-4">
+                    <div class=" form-group mb-4">
 
                         <label for="inputAlamat">Diagnosa</label>
-                        @if($rekams->diagnosa == 'belum dipriksa')
-                        <input name="diagnosa" type="text" value="" class="form-control rounded-pill" placeholder="belum dipriksa">
+                        @if(Auth::user()->name == 'DokterGigi')
+                        <select id="inputKeterangan" name="diagnosa_id" class="form-control rounded-pill">
+                            <option selected>Pilih Diagnosa</option>
+                            @foreach ($diagnosagigi as $diagnosa)
+                            <option value="{{ $diagnosa->id }}">{{ $diagnosa->name }}</option>
+                            @endforeach
+                        </select>
                         @else
-                        <input name="diagnosa" type="text" value="{{$rekams->diagnosa}}" class="form-control rounded-pill">
+                        <select id="inputKeterangan" name="diagnosa_id" class="form-control rounded-pill">
+                            <option selected>Pilih Diagnosa</option>
+                            @foreach ($diagnosaumum as $diagnosa)
+                            <option value="{{ $diagnosa->id }}">{{ $diagnosa->name }}</option>
+                            @endforeach
+                        </select>
                         @endif
                     </div>
 
                     <div class="form-group mb-4">
                         <label for="inputAlamat">Terapi</label>
-                        @if($rekams->terapi == 'belum dipriksa')
-                        <input name="terapi" type="text" class="form-control rounded-pill" placeholder="belum dipriksa">
+                        @if(Auth::user()->name == 'DokterGigi')
+                        <select id="inputKeterangan" name="terapi_id" class="form-control rounded-pill">
+                            <option selected>Pilih Terapi</option>
+                            @foreach ($terapigigi as $terapi)
+                            <option value="{{ $terapi->id }}">{{ $terapi->name }}</option>
+                            @endforeach
+                        </select>
                         @else
-                        <input name="terapi" type="text" value="{{$rekams->terapi}}" class="form-control rounded-pill">
+                        <select id="inputKeterangan" name="terapi_id" class="form-control rounded-pill">
+                            <option selected>Pilih Terapi</option>
+                            @foreach ($terapiumum as $terapi)
+                            <option value="{{ $terapi->id }}">{{ $terapi->name }}</option>
+                            @endforeach
+                        </select>
                         @endif
                     </div>
-
+                    <div class="form-group mb-4">
+                        <label for="inputAlamat">Biaya</label>
+                        <input id="inputAlamat" name="biaya" type="text" value="{{$rekams->biaya}}" class="form-control rounded-pill">
+                    </div>
                     <div class="form-group mb-4">
                         <button type="submit" class="btn btn-primary rounded-pill">Submit</button>
                         <a href="#" class="btn btn-secondary rounded-pill">Close</a>

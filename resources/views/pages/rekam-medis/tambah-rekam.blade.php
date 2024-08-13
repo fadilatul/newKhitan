@@ -11,9 +11,6 @@ Tambah Data Pasien
                 <form action="{{ route('add_rekam', $pasien_id) }}" method="POST">
                     @csrf
                     <h2>Tambah Data Anamnese</h2>
-                    <input name="gejala" value="belum di priksa" type="hidden" class="form-control rounded-pill">
-                    <input name="diagnosa" value="belum di priksa" type="hidden" class="form-control rounded-pill">
-                    <input name="terapi" value="belum di priksa" type="hidden" class="form-control rounded-pill">
                     <div class="form-group">
                         <div class="form-group mb-4">
                             <label for="poli">Poli</label>

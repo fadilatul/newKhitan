@@ -21,10 +21,40 @@ Detail Khitan
                                         <h4 class="text-primary"><b>DATA PENDAFTAR KHITAN</b></h4>
                                     </div>
                                     <div class="col-sm-4 col-5">
+                                        <h5 class="f-w-400">Nomor Pendaftaran</h5>
+                                    </div>
+                                    <div class="col-sm-8 col-7">
+                                        <h5 class="f-w-500">: {{ $detail->nomor_khitan }}</h5>
+                                    </div>
+                                    <div class="col-sm-4 col-5">
                                         <h5 class="f-w-400">Name</h5>
                                     </div>
                                     <div class="col-sm-8 col-7">
                                         <h5 class="f-w-500">: {{ $detail->name }}</h5>
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-sm-4 col-6">
+                                        <h5 class="f-w-400">Tempat,Tanggal Lahir</h5>
+                                    </div>
+                                    <div class="col-sm-8 col-6">
+                                        <h5 class="f-w-500">:{{ $detail->tempat_lahir }} ,{{ \Carbon\Carbon::parse($detail->tanggal_lahir)->format('d-m-Y') }}</h5>
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-sm-4 col-6">
+                                        <h5 class="f-w-400">Name Orang Tua</h5>
+                                    </div>
+                                    <div class="col-sm-8 col-6">
+                                        <h5 class="f-w-500">: {{ $detail->name_orangtua }}</h5>
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-sm-4 col-6">
+                                        <h5 class="f-w-400">Nomer Hp/Whatsapp</h5>
+                                    </div>
+                                    <div class="col-sm-8 col-6">
+                                        <h5 class="f-w-500">: {{ $detail->nomer_hp }}</h5>
                                     </div>
                                 </div>
                                 <div class="row mb-2">
@@ -45,10 +75,10 @@ Detail Khitan
                                 </div>
                                 <div class="row mb-2">
                                     <div class="col-sm-4 col-6">
-                                        <h5 class="f-w-400">Jenis Paket</h5>
+                                        <h5 class="f-w-400">Jenis Khitan</h5>
                                     </div>
                                     <div class="col-sm-8 col-6">
-                                        <h5 class="f-w-500">: {{ $detail->jenis_paket }}</h5>
+                                        <h5 class="f-w-500">: {{ $detail->jenis_khitan }}</h5>
                                     </div>
                                 </div>
                                 <div class="row mb-2">

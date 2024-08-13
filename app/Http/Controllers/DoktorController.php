@@ -13,14 +13,14 @@ class DoktorController extends Controller
     {
         $jumpasien = Pendaftaran::count();
         $jumkhit = Khitan::count();
-        $belumperiksa = Anamnese::where('gejala', 'belum diperiksa')
-            ->orWhere('diagnosa', 'belum diperiksa')
-            ->orWhere('terapi', 'belum diperiksa')
-            ->count();
+        // $belumperiksa = Anamnese::where('gejala', 'belum diperiksa')
+        //     ->orWhere('diagnosa', 'belum diperiksa')
+        //     ->orWhere('terapi', 'belum diperiksa')
+        //     ->count();
         $patientData = $this->getWeeklyData(Pendaftaran::class);
         $khitanData = $this->getWeeklyData(Khitan::class);
 
-        return view('pages.dokter.index', compact('jumpasien', 'jumkhit', 'belumperiksa', 'patientData', 'khitanData'));
+        return view('pages.dokter.index', compact('jumpasien', 'jumkhit', 'patientData', 'khitanData'));
     }
 
     private function getWeeklyData($model)
@@ -40,17 +40,16 @@ class DoktorController extends Controller
 
     public function priksa_umum(Request $request)
     {
-        $data_umum = Pendaftaran::where('jenis_pemeriksaan', 'periksa_umum')
-            ->orderBy('created_at', 'DESC')
-            ->get();
-        return view('pages.dokter.data-priksa', compact('data_umum'));
+        // $data_umum = Anamnese::where('poli', 'umum')->orderBy('created_at', 'DESC')->get();
+        $data_umum = Pendaftaran::orderBy('created_at', 'DESC')->get();
+        // return response()->json($data_umum);
+        return view('pages.dokter.data-priksa',  compact('data_umum'));
     }
 
     public function priksa_gigi(Request $request)
     {
-        $data_gigi = Pendaftaran::where('jenis_pemeriksaan', 'periksa_gigi')
-            ->orderBy('created_at', 'DESC')
-            ->get();
+        // $data_gigi = Anamnese::where('poli', 'gigi')->orderBy('created_at', 'DESC')->get();
+        $data_gigi = Pendaftaran::orderBy('created_at', 'DESC')->get();
         return view('pages.dokter.data-gigi', compact('data_gigi'));
     }
 

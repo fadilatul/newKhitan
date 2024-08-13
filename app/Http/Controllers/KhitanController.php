@@ -22,41 +22,48 @@ class KhitanController extends Controller
 
     public function add(Request $request)
     {
+        // Validasi data input
         $request->validate([
-            'name' => 'required',
-            'tanggal' => 'required',
-            'jam' => 'required',
-            'jenis_paket' => 'required',
-            'tempat' => 'required',
-            'alamat' => 'required',
-            'status' => 'required',
-        ], [
-            'name.required' => 'Nama Wajib Di isi',
-            'tanggal.required' => 'Tanggal Daftar Wajib Di isi',
-            'jam.required' => 'Jam Wajib Di isi',
-            'jenis_paket.required' => 'Jenis Paket Wajib Di isi',
-            'tempat.required' => 'Tempat Wajib Di isi',
-            'alamat.required' => 'Alamat Wajib Di isi',
-            'status.required' => 'Status Wajib Di isi'
+            'name' => 'required|string',
+            'tempat_lahir' => 'nullable|string',
+            'tanggal_lahir' => 'required|date',
+            'alergi_obat' => 'nullable|string',
+            'bakat_kloid' => 'nullable|string',
+            'name_orangtua' => 'required|string',
+            'nomer_hp' => 'nullable|string',
+            'alamat' => 'required|string',
+            'status' => 'required|in:selesai,belum',
+            'biaya' => 'nullable|numeric',
+            'tanggal' => 'required|date',
+            'jam' => 'required|date_format:H:i',
+            'jenis_khitan' => 'required|in:konvensional,flash_couter,smart_klomp,cincin',
+            'tempat' => 'required|in:gkz,rumah',
         ]);
 
+        // Menambahkan data pasien
         $addKhitan = Khitan::create([
             'name' => $request->name,
+            'tempat_lahir' => $request->tempat_lahir,
+            'jenis_khitan' => $request->jenis_khitan,
+            'tempat' => $request->tempat,
+            'tanggal_lahir' => $request->tanggal_lahir,
+            'alergi_obat' => $request->alergi_obat,
+            'bakat_kloid' => $request->bakat_kloid,
+            'name_orangtua' => $request->name_orangtua,
+            'status' => $request->status,
+            'nomer_hp' => $request->nomer_hp,
+            'biaya' => $request->biaya,
             'tanggal' => $request->tanggal,
             'jam' => $request->jam,
-            'jenis_paket' => $request->jenis_paket,
-            'tempat' => $request->tempat,
             'alamat' => $request->alamat,
-            'status' => $request->status,
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now(),
         ]);
 
         if ($addKhitan) {
-            Session::flash('success', 'Berhasil Menambahkan Data');
+            session()->flash('success', 'Berhasil Menambahkan Data');
+            return redirect('/khitan');
+        } else {
+            return redirect()->back()->withErrors('Gagal Menambahkan Data');
         }
-
-        return redirect('/khitan');
     }
 
     public function hapus(Request $request)
@@ -83,21 +90,26 @@ class KhitanController extends Controller
     {
         $request->validate([
             'name' => 'required',
-            'tanggal' => 'required',
+            'tempat_lahir' => 'required',
+            'tanggal_lahir' => 'required|date',
+            'name_orangtua' => 'required',
+            'tanggal' => 'required|date',
             'jam' => 'required',
-            'jenis_paket' => 'required',
+            'jenis_khitan' => 'required',
             'tempat' => 'required',
             'alamat' => 'required',
+            'nomer_hp' => 'required',
+            'biaya' => 'required|numeric',
             'status' => 'required',
         ]);
 
         $khitan = Khitan::find($id);
         if (!$khitan) {
-            return redirect('/khitan')->with('error', 'Data not found.');
+            return redirect()->route('khitan')->with('error', 'Data tidak ditemukan.');
         }
 
         $khitan->update($request->all());
 
-        return redirect('/khitan')->with('success', 'Data updated successfully');
+        return redirect()->route('khitan')->with('success', 'Data berhasil diperbarui.');
     }
 }
